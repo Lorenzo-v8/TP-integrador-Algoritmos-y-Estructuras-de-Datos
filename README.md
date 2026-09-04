@@ -7,7 +7,7 @@ Repositorio del grupo. Partir de este esqueleto. No borrar la estructura de `src
 | Nombre         | Mail                        | GitHub     |
 |----------------|------------------------------|------------|
 | Lorenzo Ciprés | lololorenzocipres@gmail.com | Lorenzo-v8 |
-| Camila Poggi   |                              | camipoggi  |
+| Camila Poggi   | Campoggi28@gmail.com        | camipoggi  |
 
 
 **Tema elegido:**  / Biblioteca musical
