@@ -4,13 +4,12 @@ Repositorio del grupo. Partir de este esqueleto. No borrar la estructura de `src
 
 ## Integrantes
 
-| Nombre | Mail | GitHub |
-| Lorenzo Ciprés |lololorenzocipres@gmail.com | Lorenzo-v8 |
-|Camila Poggi  |  |  camipoggi|
-|  |  |  |
-|  |  |  |
+| Nombre         |            Mail           | GitHub     |
+| Lorenzo Ciprés|lololorenzocipres@gmail.com | Lorenzo-v8 |
+|Camila Poggi  |                             |  camipoggi|
 
-**Tema elegido:** Pokédex / Recetario / Biblioteca musical (dejar uno)
+
+**Tema elegido:**  / Biblioteca musical
 
 ## Cómo ejecutar
 
