@@ -1,9 +1,9 @@
 from src.dominio.cancion import Cancion
 
 CATALOGO = [
-    Cancion("Bohemian Rhapsody", "Queen", "A Night at the Opera", 1975, 355),
-    Cancion("Billie Jean", "Michael Jackson", "Thriller", 1982, 294),
-    Cancion("Imagine", "John Lennon", "Imagine", 1971, 183),
-    Cancion("Hotel California", "Eagles", "Hotel California", 1976, 391),
-    Cancion("Like a Rolling Stone", "Bob Dylan", "Highway 61 Revisited", 1965, 369),
+    Cancion("Baby Lover", "Ñengo Flow", "Real G4 Life Vol. 3", 2017, 194),
+    Cancion("Temporary Fix", "One Direction", "Take Me Home", 2012, 213),
+    Cancion("Tarea Fina", "Patricio Rey y sus Redonditos de Ricota", "La Mosca y la Sopa", 1991, 249),
+    Cancion("American Girls", "Harry Styles", "Kiss All the Time. Disco, Occasionally.", 2026, 210),
+    Cancion("La Incondicional", "Luis Miguel", "Busca una Mujer", 1988, 224),
 ]
