@@ -10,7 +10,7 @@ Repositorio del grupo. Partir de este esqueleto. No borrar la estructura de `src
 | Camila Poggi   | campoggi28@gmail.com        | camipoggi  |
 
 
-**Tema elegido:**  / Biblioteca musical
+**Tema elegido:**  Biblioteca musical
 
 ## Cómo ejecutar
 
