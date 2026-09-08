@@ -1,57 +1,115 @@
 # Informe del TP
 
-Completar y hacer crecer en cada entrega. No hace falta prosa larga: oraciones claras y tablas.
-
 ## 1. Grupo y tema
 
-- Tema:
-- Por qué lo eligieron (5–8 líneas):
+* **Tema:** Biblioteca musical
+
+* **Por qué lo eligieron:**
+  Elegimos el tema Biblioteca musical porque nos permite trabajar con una entidad clara y fácil de representar mediante estructuras de datos. Una canción posee información concreta como título, artista, álbum, año y duración. Además, el dominio permite incorporar las estructuras requeridas por el trabajo práctico de manera natural: una lista enlazada para el catálogo, una playlist como colección principal, una pila para el historial de reproducción y una cola para las canciones pendientes. También permite implementar posteriormente una relación recursiva mediante las distintas versiones de una canción, como covers, versiones en vivo y remixes.
 
 ## 2. Modelo
 
-Qué es un ítem del catálogo. Qué es mutable y qué no (E1). Cómo se relacionan catálogo, colección principal, pila y cola.
+Un ítem del catálogo es una **Canción**.
+
+Cada canción contiene:
+
+* título
+* artista
+* álbum
+* año
+* duración en segundos
+
+El catálogo se representa mediante una **ListaEnlazada**, que contiene las canciones disponibles en la biblioteca.
+
+La colección principal del dominio será una **Playlist**, también implementada mediante una estructura enlazada.
+
+La **Pila** se utilizará para representar el historial de reproducción. La última canción reproducida será la primera que se pueda retirar.
+
+La **Cola** representará las canciones pendientes de reproducción. La primera canción agregada será la primera en salir.
+
+### Relación entre las estructuras
 
 ```text
-(pueden pegar un diagrama ASCII o una lista de clases)
+                    Biblioteca
+                        │
+                        ▼
+                 ListaEnlazada
+                        │
+                        ▼
+                     Canción
+                        │
+          ┌─────────────┼─────────────┐
+          ▼             ▼             ▼
+      Playlist         Pila          Cola
+     (principal)    (historial)   (pendientes)
 ```
+
+### Tipos utilizados y mutabilidad
+
+| Elemento               | Tipo / estructura | Uso                                  |
+| ---------------------- | ----------------- | ------------------------------------ |
+| Canción                | Clase             | Representa cada canción del catálogo |
+| Catálogo               | ListaEnlazada     | Almacena las canciones               |
+| Playlist               | ListaEnlazada     | Representa la colección principal    |
+| Historial              | Pila              | Almacena las canciones reproducidas  |
+| Cola de reproducción   | Cola              | Almacena las canciones pendientes    |
+| Título, artista, álbum | `str`             | Almacenan información textual        |
+| Año, duración          | `int`             | Almacenan información numérica       |
+
+Las estructuras de datos utilizadas son **mutables**, ya que durante la ejecución pueden agregarse o eliminarse elementos.
+
+Los valores de tipo `str` e `int` utilizados como atributos de las canciones son **inmutables** en Python.
+
+La clase `Cancion` es mutable porque sus atributos pueden modificarse después de crear el objeto.
 
 ## 3. Recursión (E2)
 
-- Función:
-- Caso base:
-- Caso recursivo:
-- Traza de un ejemplo real del dataset:
+Pendiente para la Entrega 2.
+
+* **Función:** Pendiente.
+* **Caso base:** Pendiente.
+* **Caso recursivo:** Pendiente.
+* **Traza de un ejemplo real del dataset:** Pendiente.
 
 ## 4. TADs (E3)
 
-| TAD | Operaciones | Invariante |
-| --- | --- | --- |
-| ListaEnlazada |  |  |
-| Pila |  |  |
-| Cola |  |  |
+Pendiente para la Entrega 3.
 
-Dónde se usa cada uno en el dominio.
+| TAD           | Operaciones | Invariante |
+| ------------- | ----------- | ---------- |
+| ListaEnlazada | Pendiente   | Pendiente  |
+| Pila          | Pendiente   | Pendiente  |
+| Cola          | Pendiente   | Pendiente  |
+
+**Dónde se usa cada uno en el dominio:** Pendiente.
 
 ## 5. Complejidad (E4)
 
-| Operación | Tiempo | Espacio | Por qué |
-| --- | --- | --- | --- |
-|  |  |  |  |
+Pendiente para la Entrega 4.
 
-Mediciones (`time.perf_counter`):
+| Operación | Tiempo    | Espacio   | Por qué   |
+| --------- | --------- | --------- | --------- |
+| Pendiente | Pendiente | Pendiente | Pendiente |
 
-| Operación | n | segundos |
-| --- | --- | --- |
-|  |  |  |
+### Mediciones (`time.perf_counter`)
+
+| Operación |  n | segundos |
+| --------- | -: | -------: |
+| Pendiente |  — |        — |
 
 ## 6. Persistencia (E5)
 
-- Layout del registro binario (campos, `struct`, anchos):
-- Header:
-- Cómo se actualiza un registro por posición:
+Pendiente para la Entrega 5.
 
-## 7. Reparto de trabajo (E6)
+* **Layout del registro binario:** Pendiente.
+* **Header:** Pendiente.
+* **Cómo se actualiza un registro por posición:** Pendiente.
 
-| Integrante | Qué hizo | Qué puede defender |
-| --- | --- | --- |
-|  |  |  |
+## Integrantes
+
+| Integrante     | Participación en E1                | Qué puede defender                              |
+| -------------- | ---------------------------------- | ----------------------------------------------- |
+| Lorenzo Ciprés | Desarrollo y revisión del proyecto | Estructura del proyecto, catálogo, modelo y CLI |
+| Camila Poggi   | Desarrollo y revisión del proyecto |Estructura del proyecto, catálogo, modelo y CLI|
+
+Ambos integrantes deben poder explicar cualquier archivo incluido en el tag de la entrega.
