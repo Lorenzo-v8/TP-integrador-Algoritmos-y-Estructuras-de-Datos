@@ -1,4 +1,6 @@
 from src.config import TEMA
+from src.catalogo import CATALOGO
+from src.dominio.biblioteca import Biblioteca
 
 TEMAS = {
     "pokedex": "Pokédex",
@@ -32,17 +34,30 @@ def main():
         print("Seteá TEMA en src/config.py: 'pokedex', 'recetario' o 'musica'.")
         return
 
+    biblioteca = Biblioteca()
+
+    for cancion in CATALOGO:
+        biblioteca.agregar_cancion(cancion)
+
     opcion = None
     while opcion != "0":
         mostrar_menu()
         opcion = input("> ").strip()
+
         if opcion == "0":
             print("Chau.")
-        elif opcion in {"1", "2", "3", "4", "5", "6", "7", "8", "9"}:
+
+        elif opcion == "1":
+            print("\n=== Catálogo ===")
+
+            for cancion in biblioteca:
+                print(cancion)
+
+        elif opcion in {"2", "3", "4", "5", "6", "7", "8", "9"}:
             pendiente()
+
         else:
             print("Opción inválida.")
-
 
 if __name__ == "__main__":
     main()
