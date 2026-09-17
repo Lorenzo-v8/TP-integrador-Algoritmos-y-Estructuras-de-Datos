@@ -64,12 +64,14 @@ La clase `Cancion` es mutable porque sus atributos pueden modificarse después d
 
 ## 3. Recursión (E2)
 
-Pendiente para la Entrega 2.
+**Función:** `versiones_de(biblioteca, id_cancion)`
 
-* **Función:** Pendiente.
-* **Caso base:** Pendiente.
-* **Caso recursivo:** Pendiente.
-* **Traza de un ejemplo real del dataset:** Pendiente.
+- **Caso base:** si la canción no tiene versiones derivadas (`versiones_directas` devuelve una lista vacía) → se devuelve `[]`.
+- **Caso recursivo:** se devuelven las versiones directas, más el resultado de aplicar `versiones_de` a cada una de esas versiones (por si a su vez tienen sus propias versiones derivadas).
+
+### Traza para la canción 12 ("Jijiji", Patricio Rey y sus Redonditos de Ricota)
+
+Dato real de `data/versiones.txt`: `13,12,live` → la canción 13 ("Ji Ji Ji", en vivo) es una versión live de la 12.
 
 ## 4. TADs (E3)
 
