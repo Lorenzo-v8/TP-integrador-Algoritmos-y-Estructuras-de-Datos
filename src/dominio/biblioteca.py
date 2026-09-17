@@ -126,3 +126,15 @@ class Biblioteca:
             if cid == id_cancion:
                 return tipo
         return None
+
+def versiones_de(biblioteca, id_cancion):
+    """Devuelve la lista de ids de todas las versiones derivadas de
+    una canción: sus covers/vivos/remixes directos, y también las
+    versiones de esas versiones (recursivo)."""
+    directas = biblioteca.versiones_directas(id_cancion)
+    if not directas:
+        return []  # CASO BASE: no tiene versiones derivadas
+    resultado = list(directas)
+    for v in directas:  # CASO RECURSIVO
+        resultado += versiones_de(biblioteca, v)
+    return resultado
