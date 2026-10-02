@@ -21,7 +21,7 @@ class Pila:
         if self.esta_vacia():
             raise PilaVaciaError("No se puede ver el tope: la pila está vacía.")
 
-        return self._datos.buscar_primero()
+        return self._datos.ver_primero()
 
     def esta_vacia(self):
         return self._datos.esta_vacia()
