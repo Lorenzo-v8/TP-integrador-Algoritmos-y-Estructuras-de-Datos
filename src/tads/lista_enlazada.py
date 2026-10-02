@@ -90,6 +90,17 @@ class ListaEnlazada:
             actual = actual.siguiente
 
         return None
+    def extraer_primero(self):
+        """Saca y devuelve el dato del primer nodo, o None si está vacía."""
+            if self.esta_vacia():
+                return None
+
+        dato = self._primero.dato
+        self._primero = self._primero.siguiente
+        self._tamanio -= 1
+
+        return dato
+        
     def __iter__(self):
         actual = self._primero
 
