@@ -1,4 +1,5 @@
 from src.tads.lista_enlazada import ListaEnlazada
+from src.excepciones import PilaVaciaError
 
 
 class Pila:
@@ -12,18 +13,15 @@ class Pila:
 
     def desapilar(self):
         if self.esta_vacia():
-            return None
+            raise PilaVaciaError("No se puede desapilar: la pila está vacía.")
 
-        dato = self._datos._primero.dato
-        self._datos._primero = self._datos._primero.siguiente
-        self._datos._tamanio -= 1
-
-        return dato
+        return self._datos.extraer_primero()
 
     def ver_tope(self):
         if self.esta_vacia():
-            return None
+            raise PilaVaciaError("No se puede ver el tope: la pila está vacía.")
 
-        return self._datos._primero.dato
+        return self._datos.buscar_primero()
+
     def esta_vacia(self):
         return self._datos.esta_vacia()
