@@ -1,4 +1,6 @@
 from src.tads.nodo import Nodo
+
+
 class ListaEnlazada:
     """TAD lista enlazada simple. No usar list de Python por debajo."""
 
@@ -90,23 +92,25 @@ class ListaEnlazada:
             actual = actual.siguiente
 
         return None
+
     def extraer_primero(self):
         """Saca y devuelve el dato del primer nodo, o None si está vacía."""
-            if self.esta_vacia():
-                return None
-   
-    def ver_primero(self):
-        """Devuelve el dato del primer nodo sin sacarlo, o None si está vacía."""
-            if self.esta_vacia():
-               return None
-        return self._primero.dato
+        if self.esta_vacia():
+            return None
 
         dato = self._primero.dato
         self._primero = self._primero.siguiente
         self._tamanio -= 1
 
         return dato
-        
+
+    def ver_primero(self):
+        """Devuelve el dato del primer nodo sin sacarlo, o None si está vacía."""
+        if self.esta_vacia():
+            return None
+
+        return self._primero.dato
+
     def __iter__(self):
         actual = self._primero
 
