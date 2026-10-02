@@ -1,5 +1,14 @@
 from src.config import TEMA
 from src.dominio.biblioteca import Biblioteca, versiones_de
+from src.dominio.playlist import Playlist
+from src.tads.pila import Pila
+from src.tads.cola import Cola
+from src.excepciones import (
+    PilaVaciaError,
+    ColaVaciaError,
+    ColeccionLlenaError,
+    ColeccionVaciaError,
+)
 
 TEMAS = {
     "pokedex": "Pokédex",
@@ -8,6 +17,9 @@ TEMAS = {
 }
 
 biblioteca = Biblioteca()
+playlist = Playlist(capacidad_maxima=10)
+historial = Pila()
+cola_reproduccion = Cola()
 
 
 def pendiente():
@@ -42,6 +54,62 @@ def mostrar_recursion():
         print(f"  - {version} [{tipo}]")
 
 
+def mostrar_playlist():
+    print()
+    entrada = input("Ingresá el id de una canción para agregar a la playlist: ").strip()
+    if not entrada.isdigit():
+        print("Id inválido.")
+        return
+    cancion = biblioteca.buscar(int(entrada))
+    if cancion is None:
+        print("No existe una canción con ese id.")
+        return
+    try:
+        playlist.agregar(cancion)
+        historial.apilar(cancion)
+        print(f"Agregada a la playlist: {cancion}")
+    except ColeccionLlenaError as e:
+        print(f"No se pudo agregar: {e}")
+
+    print()
+    print(f"Playlist actual ({playlist.tamanio()}/10):")
+    for c in playlist.listar():
+        print(f"  - {c}")
+
+
+def mostrar_historial():
+    print()
+    try:
+        ultima = historial.desapilar()
+        print(f"Última agregada (se saca del historial): {ultima}")
+    except PilaVaciaError as e:
+        print(f"No se pudo deshacer: {e}")
+
+
+def mostrar_cola():
+    print()
+    opcion = input("¿(e)ncolar o (d)esencolar? ").strip().lower()
+    if opcion == "e":
+        entrada = input("Ingresá el id de una canción para encolar: ").strip()
+        if not entrada.isdigit():
+            print("Id inválido.")
+            return
+        cancion = biblioteca.buscar(int(entrada))
+        if cancion is None:
+            print("No existe una canción con ese id.")
+            return
+        cola_reproduccion.encolar(cancion)
+        print(f"Encolada: {cancion}")
+    elif opcion == "d":
+        try:
+            siguiente = cola_reproduccion.desencolar()
+            print(f"Reproduciendo: {siguiente}")
+        except ColaVaciaError as e:
+            print(f"No se pudo desencolar: {e}")
+    else:
+        print("Opción inválida.")
+
+
 def mostrar_menu():
     nombre = TEMAS.get(TEMA, TEMA or "(sin tema)")
     print()
@@ -73,7 +141,13 @@ def main():
             listar_catalogo()
         elif opcion == "5":
             mostrar_recursion()
-        elif opcion in {"2", "3", "4", "6", "7", "8", "9"}:
+        elif opcion == "6":
+            mostrar_playlist()
+        elif opcion == "7":
+            mostrar_historial()
+        elif opcion == "8":
+            mostrar_cola()
+        elif opcion in {"2", "3", "4", "9"}:
             pendiente()
         else:
             print("Opción inválida.")
