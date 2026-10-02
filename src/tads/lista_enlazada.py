@@ -94,6 +94,12 @@ class ListaEnlazada:
         """Saca y devuelve el dato del primer nodo, o None si está vacía."""
             if self.esta_vacia():
                 return None
+   
+    def ver_primero(self):
+        """Devuelve el dato del primer nodo sin sacarlo, o None si está vacía."""
+            if self.esta_vacia():
+               return None
+        return self._primero.dato
 
         dato = self._primero.dato
         self._primero = self._primero.siguiente
