@@ -4,43 +4,44 @@ from src.algoritmos.busqueda import busqueda_lineal, busqueda_binaria
 from src.algoritmos.ordenamiento import ordenar_seleccion, ordenar_insercion
 
 biblioteca = Biblioteca()
-catalogo = biblioteca.listar()          # 67 canciones (original)
-catalogo_grande = catalogo * 10         # 670 canciones (agrandado x10)
+catalogo = biblioteca.listar()          # catálogo original
 
 clave = lambda c: c.titulo
+NO_EXISTE = "ZZZ no existe"             # peor caso: recorre todo el catálogo
 
 
-def medir(funcion, *args):
-    inicio = time.perf_counter()
-    resultado = funcion(*args)
-    fin = time.perf_counter()
-    return fin - inicio
+def medir(funcion, *args, repeticiones=100):
+    # repite y se queda con el mejor tiempo, para evitar ruido de la máquina
+    mejor = None
+    for _ in range(repeticiones):
+        inicio = time.perf_counter()
+        funcion(*args)
+        tiempo = time.perf_counter() - inicio
+        if mejor is None or tiempo < mejor:
+            mejor = tiempo
+    return mejor
 
 
-# --- Búsqueda lineal ---
-t1 = medir(busqueda_lineal, catalogo, "As It Was", clave)
-t2 = medir(busqueda_lineal, catalogo_grande, "As It Was", clave)
-print(f"busqueda lineal (n={len(catalogo)}): {t1:.6f} s")
-print(f"busqueda lineal (n={len(catalogo_grande)}): {t2:.6f} s")
+print("| Operación | n | segundos |")
+print("|---|---|---|")
 
-# --- Preparar catálogos ordenados para la binaria ---
-catalogo_ordenado = ordenar_seleccion(catalogo, clave)
-catalogo_grande_ordenado = ordenar_seleccion(catalogo_grande, clave)
+for factor in (1, 10, 50):
+    datos = catalogo * factor           # copia agrandada
+    n = len(datos)
+    ordenado = ordenar_insercion(datos, clave)  # la binaria necesita orden
 
-# --- Búsqueda binaria ---
-t3 = medir(busqueda_binaria, catalogo_ordenado, "As It Was", clave)
-t4 = medir(busqueda_binaria, catalogo_grande_ordenado, "As It Was", clave)
-print(f"busqueda binaria (n={len(catalogo_ordenado)}): {t3:.6f} s")
-print(f"busqueda binaria (n={len(catalogo_grande_ordenado)}): {t4:.6f} s")
+    # --- Búsqueda lineal ---
+    t = medir(busqueda_lineal, datos, NO_EXISTE, clave)
+    print(f"| búsqueda lineal | {n} | {t:.6f} |")
 
-# --- Ordenar por selección ---
-t5 = medir(ordenar_seleccion, catalogo, clave)
-t6 = medir(ordenar_seleccion, catalogo_grande, clave)
-print(f"ordenar seleccion (n={len(catalogo)}): {t5:.6f} s")
-print(f"ordenar seleccion (n={len(catalogo_grande)}): {t6:.6f} s")
+    # --- Búsqueda binaria ---
+    t = medir(busqueda_binaria, ordenado, NO_EXISTE, clave)
+    print(f"| búsqueda binaria | {n} | {t:.6f} |")
 
-# --- Ordenar por inserción ---
-t7 = medir(ordenar_insercion, catalogo, clave)
-t8 = medir(ordenar_insercion, catalogo_grande, clave)
-print(f"ordenar insercion (n={len(catalogo)}): {t7:.6f} s")
-print(f"ordenar insercion (n={len(catalogo_grande)}): {t8:.6f} s")
+    # --- Ordenar por selección ---
+    t = medir(ordenar_seleccion, datos, clave, repeticiones=3)
+    print(f"| ordenar selección | {n} | {t:.6f} |")
+
+    # --- Ordenar por inserción ---
+    t = medir(ordenar_insercion, datos, clave, repeticiones=3)
+    print(f"| ordenar inserción | {n} | {t:.6f} |")
