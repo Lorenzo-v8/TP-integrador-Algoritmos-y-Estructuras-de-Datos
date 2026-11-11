@@ -75,15 +75,25 @@ Dato real de `data/versiones.txt`: `13,12,live` → la canción 13 ("Ji Ji Ji", 
 
 ## 4. TADs (E3)
 
-Pendiente para la Entrega 3.
+### Análisis de las mediciones
 
-| TAD           | Operaciones | Invariante |
-| ------------- | ----------- | ---------- |
-| ListaEnlazada | Pendiente   | Pendiente  |
-| Pila          | Pendiente   | Pendiente  |
-| Cola          | Pendiente   | Pendiente  |
+Medimos con `time.perf_counter`, repitiendo cada medición y tomando el mejor
+tiempo, sobre el catálogo original (67 canciones) y copias agrandadas ×10 (670)
+y ×50 (3350). Las búsquedas se midieron con un título inexistente para forzar
+el peor caso.
 
-**Dónde se usa cada uno en el dominio:** Pendiente.
+- La búsqueda lineal creció en proporción al tamaño (de 3 µs a 30 µs al
+  multiplicar n por 10), consistente con O(n).
+- La búsqueda binaria casi no cambió (1-2 µs en los tres tamaños), consistente
+  con O(log n): cada comparación descarta la mitad del rango.
+- Selección e inserción se dispararon: al multiplicar n por 10 el tiempo se
+  multiplicó por ~100, consistente con O(n²). Inserción resultó algo más rápida
+  que selección porque su bucle interno corta apenas encuentra el lugar,
+  mientras que selección siempre recorre lo que queda.
+
+las copias agrandadas repiten las mismas canciones, y la binaria
+requiere que la colección esté ordenada (el costo de ordenar no está incluido
+en su tiempo).
 
 ## 5. Complejidad (E4)
 
