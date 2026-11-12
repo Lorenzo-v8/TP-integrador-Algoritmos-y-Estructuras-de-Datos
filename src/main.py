@@ -1,4 +1,5 @@
 from src.config import TEMA
+from src.dominio.cancion import Cancion
 from src.dominio.biblioteca import Biblioteca, versiones_de
 from src.dominio.playlist import Playlist
 from src.tads.pila import Pila
@@ -8,6 +9,8 @@ from src.excepciones import (
     ColaVaciaError,
     ColeccionLlenaError,
     ColeccionVaciaError,
+    ArchivoInvalidoError,
+    ItemNoEncontradoError,
 )
 from src.algoritmos.busqueda import busqueda_lineal, busqueda_binaria
 from src.algoritmos.ordenamiento import ordenar_seleccion, ordenar_insercion
@@ -171,6 +174,156 @@ def mostrar_ordenar():
     print(f"Catálogo ordenado por {nombre_criterio} ({nombre_metodo}).")
 
 
+def refrescar_catalogo():
+    """Vuelve a tomar el catálogo de la biblioteca (después de alta/baja/modificación/carga)."""
+    global catalogo_actual, ordenado_por
+    catalogo_actual = biblioteca.listar()
+    ordenado_por = None
+
+
+def pedir_texto(etiqueta, actual=None):
+    sufijo = f" [{actual}]" if actual is not None else ""
+    valor = input(f"{etiqueta}{sufijo}: ").strip()
+    return valor if valor else actual
+
+
+def pedir_numero(etiqueta, actual=None):
+    sufijo = f" [{actual}]" if actual is not None else ""
+    valor = input(f"{etiqueta}{sufijo}: ").strip()
+    if not valor:
+        return actual
+    if not valor.isdigit():
+        return None
+    return int(valor)
+
+
+def pedir_cancion(id_cancion, actual=None):
+    """Pide los datos de una canción. Con `actual`, Enter conserva el valor."""
+    titulo = pedir_texto("Título", actual.titulo if actual else None)
+    artista = pedir_texto("Artista", actual.artista if actual else None)
+    album = pedir_texto("Álbum", actual.album if actual else None)
+    genero = pedir_texto("Género", actual.genero if actual else None)
+    anio = pedir_numero("Año", actual.anio if actual else None)
+    duracion = pedir_numero("Duración (seg)", actual.duracion_seg if actual else None)
+    if not (titulo and artista and album and genero) or anio is None or duracion is None:
+        return None
+    if anio > 65535 or duracion > 65535:
+        return None
+    return Cancion(id_cancion, titulo, artista, album, genero, anio, duracion)
+
+
+def mostrar_detalle():
+    print()
+    entrada = input("Ingresá el id de una canción: ").strip()
+    if not entrada.isdigit():
+        print("Id inválido.")
+        return
+    c = biblioteca.buscar(int(entrada))
+    if c is None:
+        print("No existe una canción con ese id.")
+        return
+    minutos, segundos = divmod(c.duracion_seg, 60)
+    print(f"ID:        {c.id}")
+    print(f"Título:    {c.titulo}")
+    print(f"Artista:   {c.artista}")
+    print(f"Álbum:     {c.album}")
+    print(f"Género:    {c.genero}")
+    print(f"Año:       {c.anio}")
+    print(f"Duración:  {minutos}:{segundos:02d}")
+    tipo = biblioteca.tipo_de_version(c.id)
+    if tipo:
+        print(f"Es una versión de tipo: {tipo}")
+
+
+def alta_cancion():
+    print()
+    id_cancion = pedir_numero("Id")
+    if id_cancion is None:
+        print("Id inválido.")
+        return
+    if biblioteca.buscar(id_cancion) is not None:
+        print("Ya existe una canción con ese id.")
+        return
+    nueva = pedir_cancion(id_cancion)
+    if nueva is None:
+        print("Datos inválidos.")
+        return
+    biblioteca.alta_cancion(nueva)
+    refrescar_catalogo()
+    print(f"Alta guardada en el binario: {nueva}")
+
+
+def baja_cancion():
+    print()
+    id_cancion = pedir_numero("Id de la canción a dar de baja")
+    if id_cancion is None:
+        print("Id inválido.")
+        return
+    biblioteca.baja_cancion(id_cancion)
+    refrescar_catalogo()
+    print("Baja guardada en el binario.")
+
+
+def modificar_cancion():
+    print()
+    id_cancion = pedir_numero("Id de la canción a modificar")
+    if id_cancion is None:
+        print("Id inválido.")
+        return
+    actual = biblioteca.buscar(id_cancion)
+    if actual is None:
+        print("No existe una canción con ese id.")
+        return
+    print("Enter conserva el valor actual.")
+    nueva = pedir_cancion(id_cancion, actual)
+    if nueva is None:
+        print("Datos inválidos.")
+        return
+    biblioteca.modificar_cancion(id_cancion, nueva)
+    refrescar_catalogo()
+    print(f"Registro actualizado en el binario: {nueva}")
+
+
+def mostrar_archivos():
+    print()
+    print("1. Guardar catálogo en CSV")
+    print("2. Cargar catálogo desde CSV")
+    print("3. Guardar catálogo en binario")
+    print("4. Cargar catálogo desde binario")
+    print("5. Alta de canción (persistente)")
+    print("6. Baja de canción (persistente)")
+    print("7. Modificar canción (persistente)")
+    print("0. Volver")
+    opcion = input("> ").strip()
+    try:
+        if opcion == "1":
+            biblioteca.guardar_csv()
+            print("Catálogo guardado en data/catalogo.csv.")
+        elif opcion == "2":
+            biblioteca.cargar_csv()
+            refrescar_catalogo()
+            print("Catálogo cargado desde data/catalogo.csv.")
+        elif opcion == "3":
+            biblioteca.guardar_binario()
+            print("Catálogo guardado en data/catalogo.bin.")
+        elif opcion == "4":
+            biblioteca.cargar_binario()
+            refrescar_catalogo()
+            print("Catálogo cargado desde data/catalogo.bin.")
+        elif opcion == "5":
+            alta_cancion()
+        elif opcion == "6":
+            baja_cancion()
+        elif opcion == "7":
+            modificar_cancion()
+        elif opcion == "0":
+            return
+        else:
+            print("Opción inválida.")
+    except (ArchivoInvalidoError, ItemNoEncontradoError, FileNotFoundError) as e:
+        print(f"No se pudo completar la operación: {e}")
+
+
 def mostrar_menu():
     nombre = TEMAS.get(TEMA, TEMA or "(sin tema)")
     print()
@@ -212,8 +365,10 @@ def main():
             mostrar_historial()
         elif opcion == "8":
             mostrar_cola()
-        elif opcion in {"2", "9"}:
-            pendiente()
+        elif opcion == "2":
+            mostrar_detalle()
+        elif opcion == "9":
+            mostrar_archivos()
         else:
             print("Opción inválida.")
 
