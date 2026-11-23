@@ -1,29 +1,13 @@
 # TP integrador — AyED C2 2026
 
-Repositorio del grupo. Partir de este esqueleto. No borrar la estructura de `src/` ni de `docs/`.
+Repositorio del grupo. Partir de este esqueleto. ## Limitaciones
 
-## Integrantes
-
-| Nombre         | Mail                        | GitHub     |
-|----------------|------------------------------|------------|
-| Lorenzo Ciprés | lololorenzocipres@gmail.com | Lorenzo-v8 |
-| Camila Poggi   | campoggi28@gmail.com        | camipoggi  |
-
-
-**Tema elegido:**  Biblioteca musical
-
-## Cómo ejecutar
-
-Desde la raíz del repo, con Python 3.10 o superior:
-
-```text
-python -m src.main
-```
-
-En Windows, si `python` no anda: `py -3 -m src.main`.
-
-Solo biblioteca estándar. No hay `requirements.txt` a propósito.
-
+- La búsqueda binaria solo funciona si la colección está ordenada.
+- Los textos del archivo binario se cortan si superan su largo fijo (título 60 bytes, artista y álbum 40, género 20).
+- Las bajas en el binario son lógicas: el archivo no se compacta.
+- Las listas enlazadas no tienen puntero al final, por eso encolar e insertar al final recorren toda la lista.
+- Las versiones (covers, vivos, remixes) se leen solo de `data/versiones.txt` y no se guardan en el binario.
+- La playlist tiene un tope de 10 canciones.
 ## Entregas
 
 Cada vencimiento se marca con un tag. Ver `GIT.md`.

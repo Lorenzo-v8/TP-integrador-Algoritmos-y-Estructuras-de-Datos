@@ -97,29 +97,40 @@ en su tiempo).
 
 ## 5. Complejidad (E4)
 
-Pendiente para la Entrega 4.
+P## 5. Complejidad (E4)
 
-| Operación | Tiempo    | Espacio   | Por qué   |
-| --------- | --------- | --------- | --------- |
-| Pendiente | Pendiente | Pendiente | Pendiente |
+| Operación | Tiempo | Espacio | Por qué |
+| --- | --- | --- | --- |
+| Búsqueda lineal | O(n) | O(1) | Recorre la colección hasta encontrar la clave; en el peor caso mira todos los elementos. |
+| Búsqueda binaria | O(log n) | O(1) | Cada comparación descarta la mitad del rango. Requiere colección ordenada. |
+| Ordenar por selección | O(n²) | O(n) | Dos bucles anidados; trabaja sobre una copia de la lista. |
+| Ordenar por inserción | O(n²) | O(n) | En el peor caso desplaza todos los elementos anteriores; trabaja sobre una copia. |
+| Insertar al final (lista enlazada) | O(n) | O(1) | Recorre todos los nodos hasta el último. |
+| Insertar al inicio / extraer primero | O(1) | O(1) | Solo se modifica el primer nodo. |
+| Apilar / desapilar | O(1) | O(1) | Usan el inicio de la lista enlazada. |
+| Encolar | O(n) | O(1) | Inserta al final de la lista enlazada, que recorre todos los nodos. |
+| Desencolar | O(1) | O(1) | Extrae el primer nodo. |
+| versiones_de (recursiva) | O(v · r) | O(v) | Por cada versión busca sus derivadas en la lista de relaciones (r filas); v es la cantidad de versiones. |
 
 ### Mediciones (`time.perf_counter`)
 
-| Operación |  n | segundos |
-| --------- | -: | -------: |
-| Pendiente |  — |        — |
+Se midieron con `src/algoritmos/medir_tiempos.py` sobre n = 67, 670 y 3350 canciones.
+Los resultados y su análisis están en la sección 4.
+## 6. Persistencia (E5)
 
 ## 6. Persistencia (E5)
 
-Pendiente para la Entrega 5.
+Se guarda en texto (`.txt`) y en binario (`.bin`), con la biblioteca estándar de Python (`struct`).
 
-* **Layout del registro binario:** Pendiente.
-* **Header:** Pendiente.
-* **Cómo se actualiza un registro por posición:** Pendiente.
-
+* **Header (12 bytes):** `<4sHHI` = magia `CTLG` (4 bytes), versión del formato (2), tamaño de cada registro (2) y cantidad de registros (4).
+* **Layout del registro binario (169 bytes, tamaño fijo):** `<I60s40s40s20sHH?` = id (4), título (60), artista (40), álbum (40), género (20), año (2), duración en segundos (2) y un flag `activo` (1). Los textos se rellenan con `\0` y se cortan si superan su largo.
+* **Cómo se actualiza un registro por posición:** como todos los registros miden lo mismo, el offset es `12 + pos × 169`. Se hace `seek` a ese offset y se reescribe solo ese registro, sin tocar el resto del archivo.
+* **Baja lógica:** se marca `activo = False` en el registro, sin mover ni borrar nada. Al cargar, se ignoran los inactivos.
+* **Alta:** se agrega un registro al final y se actualiza la cantidad en el header.
+* **Validación:** si el archivo es más corto que el header, tiene magia incorrecta, tamaño de registro distinto o está truncado, se lanza `ArchivoInvalidoError`.
 ## Integrantes
 
-| Integrante     | Participación en E1                | Qué puede defender                              |
+| Integrante     | Participación en el proyecto            | Qué puede defender                              |
 | -------------- | ---------------------------------- | ----------------------------------------------- |
 | Lorenzo Ciprés | Desarrollo y revisión del proyecto | Estructura del proyecto, catálogo, modelo y CLI |
 | Camila Poggi   | Desarrollo y revisión del proyecto |Estructura del proyecto, catálogo, modelo y CLI|

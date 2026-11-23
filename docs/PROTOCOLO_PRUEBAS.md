@@ -8,10 +8,10 @@ Mínimos: 8 casos escritos en E2; ejecutados en E3; 15 de regresión en E6 (pila
 
 | ID | Entrega | Acción (pasos en el CLI) | Datos | Resultado esperado | Resultado | Notas |
 | --- | --- | --- | --- | --- | --- | --- |
-| P01 | E1 | Arrancar el programa y listar catálogo | dataset de la cátedra | lista no vacía, sin traceback |  |  |
-| P02 | E1 | Elegir un ítem inexistente | id = -1 | mensaje claro, el menú sigue |  |  |
-| P03 | E2 | Operación recursiva sobre un ítem con cadena | ver consigna §3.3 | imprime la cadena completa |  |  |
-| P04 | E2 | Operación recursiva sobre un ítem sin derivados |  | solo el ítem (caso base) |  |  |
+| P01 | E1 | Arrancar el programa y listar catálogo | dataset de la cátedra | lista no vacía, sin traceback |PASA  |  |
+| P02 | E1 | Elegir un ítem inexistente | id = -1 | mensaje claro, el menú sigue | PASA |  |
+| P03 | E2 | Operación recursiva sobre un ítem con cadena | ver consigna §3.3 | imprime la cadena completa |PASA  |  |
+| P04 | E2 | Operación recursiva sobre un ítem sin derivados |  | solo el ítem (caso base) | PASA |  |
 | P05 | E3 | Agregar a la colección principal hasta el tope | equipo de 6 / equivalente | el séptimo falla con excepción propia | pasa | Mi playlist tiene tope de 10. Al agregar la canción 11 salta ColeccionLlenaError y el menú sigue andando |
 | P06 | E3 | Desapilar historial vacío | pila vacía | excepción propia, menú sigue | pasa | Con el historial vacío, la opción 7 muestra el mensaje de PilaVaciaError y no se rompe |
 | P07 | E3 | Desencolar cola vacía | cola vacía | excepción propia, menú sigue | pasa | Con la cola vacía, la opción 8 muestra el mensaje de ColaVaciaError y vuelve al menú |
@@ -20,6 +20,6 @@ Mínimos: 8 casos escritos en E2; ejecutados en E3; 15 de regresión en E6 (pila
 | P10 | E4 | Búsqueda lineal de un nombre que no existe |  | no encontrado, sin traceback |pasa  |  |
 | P11 | E4 | Búsqueda binaria con catálogo desordenado |  | avisa o reordena; no da un falso hit |pasa  |  |
 | P12 | E4 | Ordenar por un criterio y después por otro |  | el orden cambia |pasa  |  |
-| P13 | E5 | Guardar texto (`.txt`), salir, volver a entrar |  | los datos siguen |  |  |
-| P14 | E5 | Guardar binario y modificar un registro por id |  | al recargar, ese campo cambió |  |  |
-| P15 | E5 | Abrir un binario truncado o con magia mala | archivo basura | excepción de archivo inválido |  |  |
+| P13 | E5 | Guardar texto (`.txt`), salir, volver a entrar |  | los datos siguen | PASA |  |
+| P14 | E5 | Guardar binario y modificar un registro por id |  | al recargar, ese campo cambió | PASA |  |
+| P15 | E5 | Abrir un binario truncado o con magia mala | archivo basura | excepción de archivo inválido | PASA |  |
